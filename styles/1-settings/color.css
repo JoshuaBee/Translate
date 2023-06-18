@@ -1,0 +1,69 @@
+/*--------------------------------//
+//                                //
+//             Color              //
+//                                //
+//--------------------------------*/
+:root {
+	--hue: 45;
+
+	--color-primary-1: oklch(90% 0.055 var(--hue));
+	--color-primary-2: oklch(80% 0.122 var(--hue));
+	--color-primary-3: oklch(70% 0.2 var(--hue));
+	--color-primary-4: oklch(60% 0.171 var(--hue));
+	--color-primary-5: oklch(50% 0.142 var(--hue));
+	--color-primary-6: oklch(40% 0.114 var(--hue));
+	--color-primary-7: oklch(30% 0.085 var(--hue));
+	--color-primary-8: oklch(20% 0.057 var(--hue));
+	--color-primary-9: oklch(10% 0.028 var(--hue));
+
+	/*
+		Primary Color
+	*/
+	--color-primary: var(--color-primary-3);
+	--color-primary-text: var(--color-primary-8);
+	
+	/*
+		Background
+	*/
+	--color-background: var(--color-primary-2);
+	--color-background-text: var(--color-primary-9);
+}
+
+@media (color-gamut: p3) {
+	:root {
+		--color-primary-1: oklch(90% 0.071 var(--hue));
+		--color-primary-2: oklch(80% 0.155 var(--hue));
+		--color-primary-3: oklch(70% 0.226 var(--hue));
+		--color-primary-4: oklch(60% 0.194 var(--hue));
+		--color-primary-5: oklch(50% 0.162 var(--hue));
+		--color-primary-6: oklch(40% 0.129 var(--hue));
+		--color-primary-7: oklch(30% 0.097 var(--hue));
+		--color-primary-8: oklch(20% 0.064 var(--hue));
+		--color-primary-9: oklch(10% 0.032 var(--hue));
+	}
+}
+
+@media (color-gamut: rec2020) {
+	:root {
+		--color-primary-1: oklch(90% 0.108 var(--hue));
+		--color-primary-2: oklch(80% 0.228 var(--hue));
+		--color-primary-3: oklch(70% 0.228 var(--hue));
+		--color-primary-4: oklch(60% 0.195 var(--hue));
+		--color-primary-5: oklch(50% 0.163 var(--hue));
+		--color-primary-6: oklch(40% 0.13 var(--hue));
+		--color-primary-7: oklch(30% 0.097 var(--hue));
+		--color-primary-8: oklch(20% 0.065 var(--hue));
+		--color-primary-9: oklch(10% 0.033 var(--hue));
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		
+		/*
+			Background
+		*/
+		--color-background: var(--color-primary-8);
+		--color-background-text: var(--color-primary-1);
+	}
+}

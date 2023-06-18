@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<link rel="preconnect" href="https://font.gstatic.com/" crossorigin>
+
+		<title>Translate</title>
+		<meta charset="utf-8" />
+		<meta name="author" content="Joshua Bee" />
+		<meta name="description" content="Translate" />
+		<!-- Let browser know website is optimized for mobile -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="icon" type="image/png" href="images/logos/logo-192.png" />
+		<link rel="apple-touch-icon" href="images/logos/logo-192.png">
+		<link rel="canonical" href="https://translate.joshuabee.dev/" />
+
+		<!-- Progressive Web App -->
+		<meta name="theme-color" content="#fe6a00" />
+		<link rel="manifest" href="manifest.webmanifest" />
+
+		<!-- Settings -->
+		<link href="styles/1-settings/color.css" rel="stylesheet" />
+
+		<!-- Tools -->
+		<link href="styles/2-tools/font.css" rel="stylesheet" />
+
+		<!-- Generic -->
+		<link href="styles/3-generic/reset.css" rel="stylesheet" />
+
+		<!-- Elements -->
+		<link href="styles/4-elements/body.css" rel="stylesheet" />
+		<link href="styles/4-elements/main.css" rel="stylesheet" />
+		
+		<!-- Components -->
+		<link href="styles/6-components/button.css" rel="stylesheet" />
+		<link href="styles/6-components/container.css" rel="stylesheet" />
+		<link href="styles/6-components/content.css" rel="stylesheet" />
+		<link href="styles/6-components/footer.css" rel="stylesheet" />
+		<link href="styles/6-components/header.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<main>
+			<header class="container container--1">
+				<h1 id="title" class="container__title">Translate</h1>
+				<img src="images/icons/arrow-down-24.svg" height="48" width="48" alt="Down Arrow" class="container__icon" />
+				<p id="titleOutput" class="container__title" dir="ltr"></p>
+			</header>
+			
+			<div class="container__divider"></div>
+			
+			<div class="container container--2">
+				<label for="name" class="container__label">Enter name:</label>
+				<input id="name" type="text" name="name" class="container__input" placeholder="...">
+				<button id="generate" type="button" class="button">
+					<span class="button__text">Generate</span>
+				</button>
+				<img src="images/icons/arrow-down-24.svg" height="48" width="48" alt="Down Arrow" class="container__icon" />
+				<div id="nameOutput" class="container__title" dir="ltr"></div>
+			</div>
+
+			<div class="content container--3">
+				<h2>What?</h2>
+
+				<p>I had the idea to try and see which non-English letters looked most like each of the letters in the English alphabet. This is excluding letters like É, because well, obviously, that looks like an English letter!</p>
+				<br />
+				<p>This then expanded to use other Unicode characters that seemed interesting, like Mathematical Operators and Dingbats as well.</p>
+
+				<h2>How?</h2>
+
+				<p>I thought the easiest way to achieve this was to have a neural network be able to predict which English letter an image of a letter was. Then once I had the model, I could get it to predict characters that the model had not seen, and the model would estimate which English letter it looked most like.</p>
+				<br />
+
+				<h3>Getting the dataset</h3>
+
+				<p>The first thing I needed was the image dataset. I created 28x28 pixel black-and-white images of the English characters, including separating the uppercase and lowercase characters. I used some simple techniques to increase the variability in the dataset, including using different fonts, varying font sizes and applying rotations. This generated a dataset of 90,272 images.</p>
+				<br />
+				<img
+					src="images/content/image-dataset.png"
+					height="411"
+					width="478"
+					alt="Examples of character images from the generated dataset"
+				/>
+
+				<h3>Getting the model</h3>
+
+				<p>First, I tried to get a model which would take a character and try and predict which of the 52 English letters (26 uppercase and 26 lowercase) was closest. This did not work, as there was no way for a letter to not look like an English letter. What this meant in reality was lots of false positives, because the model had to say it looked like something!</p>
+				<br />
+				<p>My next attempt was to generate 52 different models, one for each English letter. Each model would only have 1 question to answer, does the symbol look like my specific English letter or not? This worked much better, though having 52 models was a bit cumbersome.</p>
+
+				<h3>Getting the results</h3>
+
+				<p>Now that I have the model, it was time to test the models against symbols they had not seen before. I got a list of Unicode characters and looped over them, creating a 28x28 pixel black-and-white image of the character and running it through the 52 models. This took a while to run, but generated a list of results that had a very good rate of true positives, but also a bad rate of false positives. What this means is, if a unicode character did look like an English letter, my code was pretty good at finding it. It also had a habit of adding gibberish as well.</p>
+				<br />
+				<p>All this meant was that I had to do a little manual pruning of the data to make it seem less insane.</p>
+				<br />
+				<p>Looking at the results, I think I would class it as a success. It does seem like the worst font created in history though.</p>
+
+				<h2>Why?</h2>
+
+				<p>I like trying to solve problems that I come up with!</p>
+			</div>
+		</main>
+
+		<footer>
+			<a href="https://joshuabee.dev/" target="_blank" rel="noopener noreferrer" class="footer__branding" itemscope itemtype="https://schema.org/WebSite">
+				<picture>
+					<source srcset="images/logos/company-logo-192.svg" type="image/svg+xml">
+					<img src="images/logos/company-logo-192.png" alt="Company Logo" class="footer__logo" />
+				</picture>
+				<span class="footer__title">Joshua<br />Bee</span>
+			</a>
+
+			<button id="install" type="button" class="button install-button" aria-hidden="true">
+				<span class="button__text">Install</span>
+			</button>
+		</footer>
+
+		<!-- Main Javascript -->
+		<script src="scripts/main.js"></script>
+		<script>
+			if ('serviceWorker' in navigator) {
+			  navigator.serviceWorker.register('/service-worker.js')
+			  .then(function(registration) {
+				console.log('Service worker registration successful, scope is:', registration.scope);
+			  })
+			  .catch(function(error) {
+				console.log('Service worker registration failed, error:', error);
+			  });
+			}
+		</script>
+	</body>
+</html>

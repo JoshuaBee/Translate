@@ -1,0 +1,17 @@
+/*--------------------------------//
+//                                //
+//              Main              //
+//                                //
+//--------------------------------*/
+main {
+	display: grid;
+	grid-template-rows: calc(50vh - 1px) 2px calc(50vh - 1px);
+	margin: 0 auto;
+}
+
+@media only screen and (min-width: 1500px) {
+	main {
+		grid-template-rows: 25vh 50vh 25vh 1fr;
+		grid-template-columns: calc(50vw - 1px) 2px calc(50vw - 1px);
+	}
+}
