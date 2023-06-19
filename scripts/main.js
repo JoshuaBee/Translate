@@ -2,7 +2,7 @@ const letters = {
     A: ['△', '◬', 'Δ', 'Λ', '∆', '∧', '⚠'],
     a: ['α'],
     B: ['β'],
-    b: ['ծ', 'ձ', 'δ', '♁'],
+    b: ['ծ', 'δ', '♁'],
     C: ['∁', '☾'],
     c: ['Շ', 'ς', '⊂', '⊏'],
     D: ['◊'],
@@ -59,6 +59,12 @@ document.addEventListener('DOMContentLoaded', function(event){
 	
 	// Apply generator to the title
 	document.getElementById('titleOutput').innerHTML = generator(document.getElementById('title').innerHTML);
+
+	const params = new URLSearchParams(window.location.search)
+	if (params.has('name')) {
+		document.getElementById('name').value = params.get('name');
+		generateFromTextBox();
+	}
 
 	document.getElementById('name').focus();
 
